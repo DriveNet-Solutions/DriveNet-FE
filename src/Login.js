@@ -8,6 +8,8 @@ import { Button } from '@mui/material';
 import Link from '@mui/material/Link';
 import { TextField } from '@mui/material';
 import axios from 'axios';
+import Typography from '@mui/material/Typography';
+import { useNavigate } from 'react-router-dom';
 
 
 export default function Login() {
@@ -15,8 +17,8 @@ export default function Login() {
   const[password, setPassword] = useState('');
   const [emailError, setEmailError] = useState('');
   const [PassError, setPassError] = useState('');
-  const emailFormato = /^\S+@\S+\.\S+$/;
-
+  let [message, setMessage]= useState('');
+  const navigate = useNavigate();
 
   const Submit = async (e) => {
     e.preventDefault();
@@ -27,19 +29,28 @@ export default function Login() {
    // }else{
    //   setEmailError('')
    // }
-
+    let hasError = false;
+   
+   
     //Verificaciones de contraseña
     if(password.length < 8){
       setPassError('La contraseña debe tener al menos 8 caracteres.');
-      return;
+      hasError= true;
       }
-      else{
-          setPassError('');
-      }
+    else{
+        setPassError('');
+    }
 
-  if (emailError || PassError) {
-    return;
-  }
+    if(email.length <= 0){
+        setEmailError('Por favor ingrese un usuario');
+        hasError=true;
+    } else{
+        setEmailError('');
+    }
+
+    if (hasError){
+        return;
+    }
 
   try {
     const response = await axios.post('http://localhost:8000/api/login/', {
@@ -50,13 +61,13 @@ export default function Login() {
     headers: {
       'Content-Type': 'application/json',
     }});
-    alert('¡Inicio de sesión exitoso!');
+    setMessage('¡Inicio de sesión exitoso!');
+    navigate('/admin', {state : { username: email }, replace: true });
   } catch (error) {
-    console.log(error);
     if (error.response) {
-      alert('Usuario o contraseña incorrectos');
+      setMessage('Usuario o contraseña incorrectos');
     } else {
-      alert('Ocurrió un error inesperado.');
+        setMessage('Ocurrió un error inesperado.');
     }
   }
 };
@@ -84,7 +95,7 @@ export default function Login() {
       />
       <CardContent>
         <TextField value={email} onChange={(e) => setEmail(e.target.value)} required id = "email"
-          label="Correo electrónico"
+          label="Usuario"
           type="text" sx={{width: 400, height:90, '& .MuiOutlinedInput-root': {
               borderRadius: '18px' }}} error = {!!emailError} helperText ={emailError}
         />
@@ -97,6 +108,9 @@ export default function Login() {
               borderRadius: '10px' , backgroundColor: '#10AC84', '&: hover': {
             backgroundColor: '#10AC84',
           }}}>Ingresar</Button>
+        <Typography sx={{ marginTop: 2, color: message.includes('incorrectos') ? 'red' : 'green' }}>
+            {message}
+          </Typography>
       </CardContent>
       <Link sx={{color:'#576574', '&: hover': {
             color: '#222f3e'}}} href="#">¿Olvidaste tu contraseña?</Link>
