@@ -274,7 +274,7 @@ export default function Admin() {
         headerName: 'Acciones',
         width: 80,
         renderCell: (params) => (
-          <Box display="flex" justifyContent="space-between" width="100%">
+          <Box display="flex" width="100%">
             <IconButton onClick={() => handleOpen(params.row)} color="success">
               <CreateIcon />
             </IconButton>
@@ -282,9 +282,16 @@ export default function Admin() {
               <DeleteIcon />
             </IconButton>
           </Box>
+          
         ),
       },
     ]}
+    sx={{
+      "& .MuiDataGrid-columnHeader": {
+        pointerEvents: "none", // Deshabilita la interacción en la columna de acciones
+      }
+    }}
+    disableColumnReorder
   />
 </Paper>
   <Modal
@@ -395,6 +402,6 @@ export default function Admin() {
 </Paper>
 </Box>
 
-  </>
-  );
+  </>
+  );
 }

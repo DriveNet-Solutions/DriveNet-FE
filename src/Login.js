@@ -8,9 +8,7 @@ import { Button } from '@mui/material';
 import Link from '@mui/material/Link';
 import { TextField } from '@mui/material';
 import axios from 'axios';
-
 import Typography from '@mui/material/Typography';
-
 import { useNavigate } from 'react-router-dom';
 
 
@@ -21,9 +19,6 @@ export default function Login() {
   const [PassError, setPassError] = useState('');
   let [message, setMessage]= useState('');
   const navigate = useNavigate();
-  const emailFormato = /^\S+@\S+\.\S+$/;
-
-
 
   const Submit = async (e) => {
     e.preventDefault();
@@ -66,12 +61,9 @@ export default function Login() {
     headers: {
       'Content-Type': 'application/json',
     }});
-
+    const {redirectUrl, role} = response.data;
     setMessage('¡Inicio de sesión exitoso!');
-    navigate('/admin', {state : { username: email }, replace: true });
-    alert('¡Inicio de sesión exitoso!');
-    navigate('/user-search', {replace:true});
-
+    navigate(redirectUrl, {state : { username: email, role:role }, replace: true });
   } catch (error) {
     if (error.response) {
       setMessage('Usuario o contraseña incorrectos');
@@ -124,7 +116,6 @@ export default function Login() {
       <Link sx={{color:'#576574', '&: hover': {
             color: '#222f3e'}}} href="#">¿Olvidaste tu contraseña?</Link>
     </Card>
-    </Box>
-  );
+    </Box>
+  );
 }
-
