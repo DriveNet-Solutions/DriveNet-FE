@@ -1,19 +1,24 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+
+
+// Componente principal para manejar las rutas
+
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; // Correct import
 import './index.css';
 import Login from './Login';
 import Admin from './Admin'; 
+import ClientInfo from './ClientInfo';
 import reportWebVitals from './reportWebVitals';
 
-// Componente principal para manejar las rutas
 function App() {
   return (
     <Router>
       <Routes>
-      <Route path="/" element={<Login />} /> 
+        <Route path="/" element={<Login />} />
         <Route path="/login" element={<Login />} />
         <Route path="/admin" element={<Admin />} />
+        <Route path="/user-search" element={<ClientInfo />} />
       </Routes>
     </Router>
   );
@@ -28,4 +33,6 @@ root.render(
 );
 
 // Si quieres medir el rendimiento, puedes usar reportWebVitals
+
 reportWebVitals();
+
