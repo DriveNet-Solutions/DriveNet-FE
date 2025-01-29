@@ -1,17 +1,38 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+
+
+// Componente principal para manejar las rutas
+
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; // Correct import
 import './index.css';
-import App from './App';
+import Login from './Login';
+import Admin from './Admin'; 
+import ClientInfo from './ClientInfo';
 import reportWebVitals from './reportWebVitals';
 
+function App() {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/admin" element={<Admin />} />
+        <Route path="/user-search" element={<ClientInfo />} />
+      </Routes>
+    </Router>
+  );
+}
+
+// Renderizamos la app
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <App/> 
   </React.StrictMode>
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+// Si quieres medir el rendimiento, puedes usar reportWebVitals
+
 reportWebVitals();
+
